@@ -1,0 +1,18 @@
+# lazy.nvim directory
+/lazy/
+
+# NeoVim
+*.swp
+*.swo
+*.swn
+*~
+*.bak
+/undodir/
+/shada/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
