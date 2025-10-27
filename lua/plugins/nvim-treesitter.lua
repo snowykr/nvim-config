@@ -9,7 +9,10 @@ return {
             ensure_installed = { "lua", "python", "c", "rust", "markdown", "vim", "sql", "typescript", "javascript", "html", "go" },
             sync_install = false,
             highlight = { enable = true },
-            indent = { enable = true },
+            indent = { 
+                enable = true,
+                disable = { "rust" },
+            },
         })
     end
 }
