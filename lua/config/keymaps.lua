@@ -11,6 +11,7 @@ mapKey('<C-l>', '<C-w>l') -- Right
 
 -- clear search hl
 mapKey('<leader>h', ':nohlsearch<CR>')
+mapKey('<leader>tt', ':ToggleTerm<CR>')
 
 -- indent
 mapKey('<', '<gv', 'v')
