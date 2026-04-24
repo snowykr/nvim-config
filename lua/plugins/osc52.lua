@@ -23,7 +23,5 @@ return {
       },
     }
     
-    -- (선택 사항) 'y'만 눌러도 시스템 클립보드로 복사되게 하려면 아래 주석을 해제하세요
-    vim.opt.clipboard:append("unnamedplus")
   end,
 }

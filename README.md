@@ -5,7 +5,7 @@ Personal Neovim configuration built on `lazy.nvim` with a small Lua layout, LSP 
 ## Structure
 
 - `init.lua`: entry point
-- `lua/config/lazy.lua`: bootstraps `lazy.nvim`, sets the leader key, loads options and keymaps
+- `lua/config/lazy.lua`: bootstraps `lazy.nvim` and loads plugins
 - `lua/config/options.lua`: editor options
 - `lua/config/keymaps.lua`: global keymaps
 - `lua/plugins/*.lua`: plugin definitions and plugin-specific mappings
@@ -76,6 +76,8 @@ This config currently uses:
 ## Shortcuts
 
 Leader key: `Space`
+
+The leader key is set early in `init.lua` before the rest of the config loads.
 
 This config has two kinds of shortcuts:
 
@@ -223,9 +225,9 @@ These plugins are enabled but do not add meaningful user-facing keymaps in this 
 
 ## Notes
 
-- `gruvbox` and `jb.nvim` are both installed, but `jb` currently has the higher priority and sets the active colorscheme.
+- `gruvbox` and `jb.nvim` are both installed, but `gruvbox` currently has the higher priority and sets the active colorscheme.
 - Treesitter installs support for: Lua, Python, C, Rust, Markdown, Vim, SQL, TypeScript, JavaScript, HTML, and Go.
-- Clipboard support is configured both through `unnamedplus` and `osc52`, which is useful in remote terminal sessions.
+- Clipboard support is configured through `unnamedplus` in `lua/config/options.lua`, with `osc52` providing the remote-session clipboard backend.
 
 ## Customizing
 
