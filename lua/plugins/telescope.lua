@@ -2,7 +2,7 @@ local mapKey = require("utils.keyMapper").mapKey
 
 return {
     {
-        'nvim-telescope/telescope.nvim', tag = '0.1.8',
+        'nvim-telescope/telescope.nvim', version = '*',
             dependencies = { 'nvim-lua/plenary.nvim' },
             config = function()
                 local builtin = require("telescope.builtin")
