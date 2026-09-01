@@ -1,5 +1,3 @@
-local keyMapper = require('utils.keyMapper').mapKey
-
 local desired_servers = {
     "lua_ls",
     "ts_ls",
@@ -74,7 +72,8 @@ return {
         "mason-org/mason-lspconfig.nvim",
         dependencies = { "mason-org/mason.nvim" },
         opts = {
-            ensure_installed = ensure_installed
+            ensure_installed = ensure_installed,
+            automatic_enable = false,
         },
     },
 
@@ -85,9 +84,21 @@ return {
             servers = servers
         },
         config = function(_, opts)
-            keyMapper('K', vim.lsp.buf.hover)
-            keyMapper('gd', vim.lsp.buf.definition)
-            keyMapper('<leader>ca', vim.lsp.buf.code_action)
+            for server_name, server_config in pairs(opts.servers) do
+                vim.lsp.config(server_name, server_config)
+                vim.lsp.enable(server_name)
+            end
+
+            local group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = group,
+                callback = function(event)
+                    local map_opts = { buffer = event.buf, silent = true }
+                    vim.keymap.set("n", "K", vim.lsp.buf.hover, map_opts)
+                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, map_opts)
+                    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, map_opts)
+                end,
+            })
         end,
     }
 }

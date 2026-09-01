@@ -1,6 +1,6 @@
 # Neovim Config
 
-Personal Neovim configuration built on `lazy.nvim` with a small Lua layout, LSP support, Telescope search, Neo-tree file browsing, ToggleTerm, Treesitter, Copilot, and a few UI plugins.
+Personal Neovim configuration built on `lazy.nvim` with a small Lua layout, LSP support, Telescope search, Neo-tree file browsing, ToggleTerm, Treesitter, and a few UI plugins.
 
 ## Structure
 
@@ -12,13 +12,33 @@ Personal Neovim configuration built on `lazy.nvim` with a small Lua layout, LSP 
 
 ## Requirements
 
-Recommended tools:
+Required tools:
 
-- Neovim `0.9+`
-- `git`
-- a Nerd Font (for file icons)
+- Neovim `0.11+`
+- `git`, `curl`, and `unzip`
 - `ripgrep` for Telescope live grep
-- language servers used in this config are installed through Mason when available
+- `fd` for extended Telescope file discovery
+- a C compiler and build tools for native plugins and Treesitter parsers
+- a Nerd Font for file icons
+
+Language servers are installed through Mason when available.
+
+On macOS with Homebrew:
+
+```bash
+brew install neovim git ripgrep fd
+xcode-select --install
+```
+
+Ubuntu 24.04's default `apt` package provides Neovim 0.9 and is too old for this config. Install a current Neovim release from [neovim.io](https://neovim.io/), then install the remaining dependencies:
+
+```bash
+sudo apt update
+sudo apt install git curl unzip ripgrep fd-find build-essential
+sudo ln -s "$(command -v fdfind)" /usr/local/bin/fd
+```
+
+The `fd` symlink is only needed when Ubuntu installs the executable as `fdfind`.
 
 ## Install
 
@@ -45,7 +65,6 @@ On first launch, `lazy.nvim` bootstraps itself automatically and installs plugin
 - `nvim-lspconfig` + `mason.nvim` + `mason-lspconfig.nvim` for LSP setup
 - `nvim-treesitter` for syntax highlighting and indentation
 - `Comment.nvim` for commenting helpers
-- `copilot.lua` for inline AI suggestions
 - `lualine.nvim` for the statusline
 - `alpha-nvim` for the dashboard
 - `indent-blankline.nvim` for indentation guides
@@ -126,14 +145,6 @@ This config has two kinds of shortcuts:
 | `K` | Normal | Show hover documentation |
 | `gd` | Normal | Go to definition |
 | `<leader>ca` | Normal | Open code actions |
-
-#### Copilot
-
-| Shortcut | Mode | Action |
-| --- | --- | --- |
-| `<C-l>` | Insert | Accept Copilot suggestion |
-
-This does not conflict with split navigation because the modes are different: split navigation uses normal mode, while Copilot acceptance uses insert mode.
 
 ### Plugin default mappings that are also active
 

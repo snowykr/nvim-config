@@ -1,0 +1,44 @@
+name: Neovim config
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: nvim
+
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          version: stable
+          neovim: true
+
+      - name: Install macOS dependencies
+        if: runner.os == 'macOS'
+        run: brew install ripgrep fd
+
+      - name: Install Ubuntu dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ripgrep fd-find build-essential
+
+      - name: Verify startup and integrations
+        working-directory: nvim
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}
+        run: |
+          nvim --headless "+lua local plugins = require('lazy.core.config').plugins; assert(plugins['copilot.lua'] == nil); assert(vim.fn.exists(':Neotree') == 2); assert(vim.fn.exists(':ToggleTerm') == 2); require('telescope.builtin'); require('nvim-treesitter'); require('mason-registry'); print('core integrations ok')" "+qa"
+
+      - name: Verify Lua syntax
+        working-directory: nvim
+        env:
+          XDG_CONFIG_HOME: ${{ github.workspace }}
+        run: |
+          nvim --headless "+lua for _, file in ipairs(vim.fn.glob('lua/**/*.lua', false, true)) do assert(loadfile(file), file) end; print('lua syntax ok')" "+qa"
